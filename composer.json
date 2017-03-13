@@ -2,7 +2,7 @@
     "name": "lod/wechatpay",
     "description": "Wrapped WechatPay sdk",
     "require": {
-        "php": "5.4.0"
+        "php": ">=5.4.0"
     },
     "license": "MIT",
     "authors": [
