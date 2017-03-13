@@ -16,5 +16,5 @@
             "Lod\\WeChatPay\\": "src/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "1.0"
 }
