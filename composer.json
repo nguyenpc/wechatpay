@@ -14,7 +14,7 @@
     "autoload": {
         "psr-4": {
             "Lod\\WechatPay\\": "src/"
-        },
+        }
     },
     "minimum-stability": "stable"
 }
