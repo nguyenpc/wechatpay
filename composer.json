@@ -1,5 +1,5 @@
 {
-    "name": "lod/WechatPay",
+    "name": "lod/wechatpay",
     "description": "Wrapped WechatPay sdk",
     "require": {
         "php": ">=5.4.0"
@@ -14,7 +14,10 @@
     "autoload": {
         "psr-4": {
             "Lod\\WechatPay\\": "src/"
-        }
+        },
+        "classmap": [
+            "src/", "src/Lib/", "src/Lib/WxPay.Api.php"
+        ]
     },
     "minimum-stability": "stable"
 }
