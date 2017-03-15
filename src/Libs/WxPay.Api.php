@@ -2,7 +2,7 @@
 namespace Lod\WechatPay\Libs;
 
 require_once "WxPay.Exception.php";
-require_once "WxPay.Config.php";
+// require_once "WxPay.Config.php";
 require_once "WxPay.Data.php";
 /**
  *
@@ -12,7 +12,7 @@ require_once "WxPay.Data.php";
  *
  */
 
-class WxPayApi
+class WxPayApi extends AbstractProvider
 {
 	/**
 	 *
@@ -23,7 +23,7 @@ class WxPayApi
 	 * @throws WxPayException
 	 * @return 成功时返回，其他抛异常
 	 */
-	public static function unifiedOrder($inputObj, $timeOut = 6)
+	public function unifiedOrder($inputObj, $timeOut = 6)
 	{
 		$url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 		//检测必填参数
@@ -47,11 +47,11 @@ class WxPayApi
 
 		//异步通知url未设置，则使用配置文件中的url
 		if(!$inputObj->IsNotify_urlSet()){
-			$inputObj->SetNotify_url(WxPayConfig::NOTIFY_URL);//异步通知url
+			$inputObj->SetNotify_url($this->notifyUrl);//异步通知url
 		}
 
-		$inputObj->SetAppid(WxPayConfig::APPID);//公众账号ID
-		$inputObj->SetMch_id(WxPayConfig::MCHID);//商户号
+		$inputObj->SetAppid($this->appId);//公众账号ID
+		$inputObj->SetMch_id($this->mchId);//商户号
 		$inputObj->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);//终端ip
 		//$inputObj->SetSpbill_create_ip("1.1.1.1");
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
@@ -94,7 +94,7 @@ class WxPayApi
 		$startTimeStamp = self::getMillisecond();//请求开始时间
 		$response = self::postXmlCurl($xml, $url, false, $timeOut);
 		$result = WxPayResults::Init($response);
-		self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+		$this->reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
 
 		return $result;
 	}
@@ -457,14 +457,14 @@ class WxPayApi
 	 * @param int $startTimeStamp
 	 * @param array $data
 	 */
-	private static function reportCostTime($url, $startTimeStamp, $data)
+	private function reportCostTime($url, $startTimeStamp, $data)
 	{
 		//如果不需要上报数据
-		if(WxPayConfig::REPORT_LEVENL == 0){
+		if($this->reportLevenl == 0){
 			return;
 		}
 		//如果仅失败上报
-		if(WxPayConfig::REPORT_LEVENL == 1 &&
+		if($this->reportLevenl == 1 &&
 			 array_key_exists("return_code", $data) &&
 			 $data["return_code"] == "SUCCESS" &&
 			 array_key_exists("result_code", $data) &&
