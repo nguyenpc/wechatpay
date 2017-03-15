@@ -16,7 +16,7 @@
             "Lod\\WechatPay\\": "src/"
         },
         "classmap": [
-            "src/", "src/Lib/", "src/Lib/WxPay.Api.php"
+            "src/"
         ]
     },
     "minimum-stability": "stable"
