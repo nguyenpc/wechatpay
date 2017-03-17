@@ -21,6 +21,13 @@ class WechatPayManager extends Manager {
     public static function unifiedOrder($object){
         return self::$wxApi->unifiedOrder($object);
     }
+    public static function bizpayurl($object){
+        return self::$wxApi->bizpayurl($object);
+    }
+
+    public static function queryOrder($object){
+        return self::$wxApi->orderQuery($object);
+    }
 
     /**
     * Get the default driver name.

@@ -52,8 +52,8 @@ class WxPayApi extends AbstractProvider
 
 		$inputObj->SetAppid($this->appId);//公众账号ID
 		$inputObj->SetMch_id($this->mchId);//商户号
-		$inputObj->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);//终端ip
-		//$inputObj->SetSpbill_create_ip("1.1.1.1");
+		// $inputObj->SetSpbill_create_ip($_SERVER['REMOTE_ADDR']);//终端ip
+		$inputObj->SetSpbill_create_ip("117.3.81.19");
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 
 		//签名
@@ -77,15 +77,15 @@ class WxPayApi extends AbstractProvider
 	 * @throws WxPayException
 	 * @return 成功时返回，其他抛异常
 	 */
-	public static function orderQuery($inputObj, $timeOut = 6)
+	public function orderQuery($inputObj, $timeOut = 6)
 	{
 		$url = "https://api.mch.weixin.qq.com/pay/orderquery";
 		//检测必填参数
 		if(!$inputObj->IsOut_trade_noSet() && !$inputObj->IsTransaction_idSet()) {
 			throw new WxPayException("订单查询接口中，out_trade_no、transaction_id至少填一个！");
 		}
-		$inputObj->SetAppid(WxPayConfig::APPID);//公众账号ID
-		$inputObj->SetMch_id(WxPayConfig::MCHID);//商户号
+		$inputObj->SetAppid($this->appId);//公众账号ID
+		$inputObj->SetMch_id($this->mchId);//商户号
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 
 		$inputObj->SetSign();//签名
@@ -353,14 +353,14 @@ class WxPayApi extends AbstractProvider
 	 * @throws WxPayException
 	 * @return 成功时返回，其他抛异常
 	 */
-	public static function bizpayurl($inputObj, $timeOut = 6)
+	public function bizpayurl($inputObj, $timeOut = 6)
 	{
 		if(!$inputObj->IsProduct_idSet()){
 			throw new WxPayException("生成二维码，缺少必填参数product_id！");
 		}
 
-		$inputObj->SetAppid(WxPayConfig::APPID);//公众账号ID
-		$inputObj->SetMch_id(WxPayConfig::MCHID);//商户号
+		$inputObj->SetAppid($this->appId);//公众账号ID
+		$inputObj->SetMch_id($this->mchId);//商户号
 		$inputObj->SetTime_stamp(time());//时间戳
 		$inputObj->SetNonce_str(self::getNonceStr());//随机字符串
 
