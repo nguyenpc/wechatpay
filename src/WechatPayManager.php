@@ -18,15 +18,15 @@ class WechatPayManager extends Manager {
             $config['app_secret'],5, 6, 7);
     }
 
-    public static function unifiedOrder($object){
-        return self::$wxApi->unifiedOrder($object);
+    public static function unifiedOrder($object, $timeout = 10){
+        return self::$wxApi->unifiedOrder($object, $timeout);
     }
-    public static function bizpayurl($object){
-        return self::$wxApi->bizpayurl($object);
+    public static function bizpayurl($object, $timeout = 10){
+        return self::$wxApi->bizpayurl($object, $timeout);
     }
 
-    public static function queryOrder($object){
-        return self::$wxApi->orderQuery($object);
+    public static function queryOrder($object, $timeout = 10){
+        return self::$wxApi->orderQuery($object, $timeout);
     }
 
     /**
